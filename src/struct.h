@@ -1,10 +1,12 @@
+#ifndef _SRC_STRUCT_H_
+#define _SRC_STRUCT_H_
 
  struct nucleon
  {
    double x;
    double y;
    double z;
- }
+ };
 
  struct string_initial
  {
@@ -14,7 +16,7 @@
    double z;
    int itarget;
    int iprojectile;
- }
+ };
 
  struct string_final
  {
@@ -27,4 +29,6 @@
    double eta_r;
    double y_l;
    double y_r;
- }
+ };
+
+#endif

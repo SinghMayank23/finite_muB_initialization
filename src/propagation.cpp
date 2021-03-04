@@ -1,15 +1,15 @@
-#include "./grid.h"
+#include "./propagation.h"
 
 namespace Propagation {
 
  void Propagate_strings(std::vector<std::shared_ptr<string_initial>> string_list, std::vector<std::shared_ptr<string_final>> string_final_list,
                                  double sqrtsNN, gsl_rng* random)
  {
-   double yin_T[197] yin_P[197];
+   double yin_T[197], yin_P[197];
    for (int inucleon = 0; inucleon < 197; inucleon++)
    {
-     yin_T[inucleon] = -1.*acosh(sqrtsNN/(2.*mass_nucleon));
-     yin_P[inucleon] = acosh(sqrtsNN/(2.*mass_nucleon));
+     yin_T[inucleon] = -1.*acosh(sqrtsNN/(2.*nucleon_mass));
+     yin_P[inucleon] = acosh(sqrtsNN/(2.*nucleon_mass));
    }
 
    for (int istring = 0; istring < string_list.size(); istring++)
@@ -22,7 +22,7 @@ namespace Propagation {
 
      double y_loss = Sample_y_loss(yin_T[itarget], yin_P[iprojectile], random);
 
-     double delta_tau_f = (nucleon_mass/tension)*sqrt(2.*(cosh(yloss)-1.));
+     double delta_tau_f = (nucleon_mass/tension)*sqrt(2.*(cosh(y_loss)-1.));
      new_string->delta_tau_f = delta_tau_f;
 
      double Y_com_string = (yin_T[itarget] + yin_P[iprojectile])/2.;
@@ -37,8 +37,8 @@ namespace Propagation {
      double z_c = string_list[istring]->z;
      double eta_c = log((t_c+z_c)/(t_c-z_c))*0.5;
      double tau_c = sqrt(t_c*t_c - z_c*z_c);
-     new_string[istring]->eta_c = eta_c;
-     new_string[istring]->tau_c = tau_c;
+     new_string->eta_c = eta_c;
+     new_string->tau_c = tau_c;
 
      double t_l_lab = t_c + delta_tau_f*(    (delta_tau_f*tension*sinh(yin_T[itarget]    )/(2.*nucleon_mass))
                                         + sqrt(pow(delta_tau_f*tension/(2.*nucleon_mass),2.) + 1.)*cosh(yin_T[itarget]))    ;
@@ -52,7 +52,7 @@ namespace Propagation {
      new_string->eta_l = log((t_l_lab + z_l_lab)/(t_l_lab - z_l_lab));
      new_string->eta_r = log((t_r_lab + z_r_lab)/(t_r_lab - z_r_lab));
 
-     string_final_list.pushback(new_string);
+     string_final_list.push_back(new_string);
      yin_T[itarget]     = y_l;
      yin_P[iprojectile] = y_r;
    }

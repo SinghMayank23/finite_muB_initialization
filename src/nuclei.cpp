@@ -1,22 +1,13 @@
-#include "./grid.h"
+#include "./nuclei.h"
 
 namespace Nuclei {
 
-   double epsabs = 1.e-15;
-   double epsrel = 1.e-10;
-//   struct cell
-//   {
-//     double   ;
-//     double heavymomentum;
-//     int    int_index    ;
-//   };
-
- void Initialize_projectile_nucleus(ifstream& nucleusfile, int nuclei_number, nucleon Projectile)
+ void Initialize_projectile_nucleus(std::ifstream& nucleusfile, int nuclei_number, nucleon* Projectile)
  {
    std::string dummy;
    for (int iline = 0; iline < (nuclei_number-1)*197; iline++)//Works only for Au nuclei
    {
-     std::getline(nucleus, dummy);
+     std::getline(nucleusfile, dummy);
    }
    
    for (int inucleon = 0; inucleon < 197; inucleon++)//Works only for Au-197
@@ -31,12 +22,12 @@ namespace Nuclei {
    return; 
  }
 
- void Initialize_target_nucleus(ifstream& nucleusfile, int nuclei_number, nucleon Target)
+ void Initialize_target_nucleus(std::ifstream& nucleusfile, int nuclei_number, nucleon* Target)
  {
    std::string dummy;
    for (int iline = 0; iline < (nuclei_number-1)*197; iline++)//Works only for Au nuclei
    {
-     std::getline(nucleus, dummy);
+     std::getline(nucleusfile, dummy);
    }
    
    for (int inucleon = 0; inucleon < 197; inucleon++)//Works only for Au-197
@@ -51,33 +42,33 @@ namespace Nuclei {
    return; 
  }
 
- void Apply_random_rotation(nucleon Target, nucleon Projectile, gsl_rng* random)
+ void Apply_random_rotation(nucleon* Target, nucleon* Projectile, gsl_rng* random)
  {
    double Talpha = 2.*M_PI*gsl_rng_uniform(random);//Check Euler angles
    double Tbeta  =    M_PI*gsl_rng_uniform(random);
    double Tgamma = 2.*M_PI*gsl_rng_uniform(random);
 
-   double Tcosalpha  = cos(alpha)
-   double Tsinalpha  = sin(alpha);
-   double Tcosbeta   = cos(beta )
-   double Tsinbeta   = sin(beta );
-   double Tcosgamma  = cos(gamma)
-   double Tsingamma  = sin(gamma);
+   double Tcosalpha  = cos(Talpha);
+   double Tsinalpha  = sin(Talpha);
+   double Tcosbeta   = cos(Tbeta );
+   double Tsinbeta   = sin(Tbeta );
+   double Tcosgamma  = cos(Tgamma);
+   double Tsingamma  = sin(Tgamma);
 
    double Palpha = 2.*M_PI*gsl_rng_uniform(random);//Check Euler angles
    double Pbeta  =    M_PI*gsl_rng_uniform(random);
    double Pgamma = 2.*M_PI*gsl_rng_uniform(random);
 
-   double Pcosalpha  = cos(alpha)
-   double Psinalpha  = sin(alpha);
-   double Pcosbeta   = cos(beta )
-   double Psinbeta   = sin(beta );
-   double Pcosgamma  = cos(gamma)
-   double Psingamma  = sin(gamma);
+   double Pcosalpha  = cos(Palpha);
+   double Psinalpha  = sin(Palpha);
+   double Pcosbeta   = cos(Pbeta );
+   double Psinbeta   = sin(Pbeta );
+   double Pcosgamma  = cos(Pgamma);
+   double Psingamma  = sin(Pgamma);
 
-   for (int inuleon = 0; inucleon < 197; inucleon++)
+   for (int inucleon = 0; inucleon < 197; inucleon++)
    {
-     double Tx, Ty, Tz, Px, Py, Px;
+     double Tx, Ty, Tz, Px, Py, Pz;
 
      Tx = Target[inucleon].x;
      Ty = Target[inucleon].y;
@@ -110,12 +101,12 @@ namespace Nuclei {
    return;
  }
 
- void Apply_Lorentz_Contraction(nucleon Target, nucleon Projectile, double sqrtNN)
+ void Apply_Lorentz_Contraction(nucleon* Target, nucleon* Projectile, double sqrtNN)
  {
    double alpha = sinh(acosh(sqrtNN/(2.*nucleon_mass)));
    double Lorentz_gamma = sqrt(1.+ alpha*alpha);
 
-   for (int inuleon = 0; inucleon < 197; inucleon++)
+   for (int inucleon = 0; inucleon < 197; inucleon++)
    {
      Target[inucleon].z     /= Lorentz_gamma;
      Projectile[inucleon].z /= Lorentz_gamma;
@@ -123,7 +114,7 @@ namespace Nuclei {
    return;
  }
 
- void Shift_nuclei(nucleon Target, nucleon Projectile)
+ void Shift_nuclei(nucleon* Target, nucleon* Projectile)
  {
    double zshift_T = 0.;
    double zshift_P = 0.;

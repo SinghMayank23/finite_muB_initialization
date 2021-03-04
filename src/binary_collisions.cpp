@@ -1,8 +1,10 @@
-#include "./grid.h"
+#include "./binary_collisions.h"
+
+using namespace std;
 
 namespace Binary_Collisions {
 
- void Determine_strings(std::vector<std::shared_ptr<string_initial>> string_list, nucleon Target, nucleon Projectile,
+ void Determine_strings(std::vector<std::shared_ptr<string_initial>> string_list, nucleon* Target, nucleon* Projectile,
                                  double sqrtsNN, double sigmaNN, gsl_rng* random)
  {
    int Nconn_T[197], Nconn_P[197];
@@ -13,7 +15,7 @@ namespace Binary_Collisions {
    }
    for (int inucleon_T = 0; inucleon_T < 197; inucleon_T++)
    {
-   for(int inucleon_P = 0; inucleon_P < 197; inucleon_P++
+   for(int inucleon_P = 0; inucleon_P < 197; inucleon_P++)
    {
      double distance = sqrt(pow((Target[inucleon_T].x - Projectile[inucleon_P].x), 2.)
                           + pow((Target[inucleon_T].y - Projectile[inucleon_P].y), 2.));
@@ -21,7 +23,7 @@ namespace Binary_Collisions {
      {
        double num = gsl_rng_uniform(random);
        int Nconn = Nconn_T[inucleon_T] + Nconn_P[inucleon_P];
-       double probablilty = exp(-0.5*(double)Nconn);
+       double probability = exp(-0.5*(double)Nconn);
 
        if (num < probability)
        {
@@ -37,7 +39,7 @@ namespace Binary_Collisions {
          new_string->itarget     = inucleon_T;
          new_string->iprojectile = inucleon_P;
 
-         string_list.pushback(new_string);
+         string_list.push_back(new_string);
        }
      }
    }

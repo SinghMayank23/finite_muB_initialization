@@ -1,0 +1,2 @@
+For compilation:
+g++ -std=c++11 -Wall -I/usr/include/gsl/ main.cpp binary_collisions.cpp nuclei.cpp propagation.cpp -lgsl -lgslcblas
