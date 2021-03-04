@@ -32,11 +32,19 @@ int main(int argc, char *argv[]) {
 
     nucleon Target[197];
     nucleon Projectile[197];
+    std::vector<std::shared_ptr<string_initial>> string_list     ;
+    std::vector<std::shared_ptr<string_final>> string_final_list     ;
+
     Nuclei::Get_projectile_nuleus(nucleusfile, nuclei_number, Projectile);
     Nuclei::Get_target_nucleus(nucleusfile, nuclei_number, Target);
 
     Nuclei::Apply_random_rotation(Target, Projectile, random);
-    Nuclei::Apply_Lorentz_Contraction(Target, Projectile, sNN);
+    Nuclei::Apply_Lorentz_Contraction(Target, Projectile, sqrtsNN);
+    Nuclei::Shift_nuclei(Target, Projectile);
+
+    Binary_Collisions::Determine_strings(string_list, Target, Projectile, sqrtsNN, sigmaNN, random);
+
+    Propagation::Propagate_strings(string_list, string_final_list, sqrtsNN, random);
   }
 
   gsl_rng_free(random);

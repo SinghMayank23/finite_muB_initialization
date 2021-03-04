@@ -112,7 +112,6 @@ namespace Nuclei {
 
  void Apply_Lorentz_Contraction(nucleon Target, nucleon Projectile, double sqrtNN)
  {
-   double nucleon_mass = 0.939;
    double alpha = sinh(acosh(sqrtNN/(2.*nucleon_mass)));
    double Lorentz_gamma = sqrt(1.+ alpha*alpha);
 
@@ -120,6 +119,24 @@ namespace Nuclei {
    {
      Target[inucleon].z     /= Lorentz_gamma;
      Projectile[inucleon].z /= Lorentz_gamma;
+   }
+   return;
+ }
+
+ void Shift_nuclei(nucleon Target, nucleon Projectile)
+ {
+   double zshift_T = 0.;
+   double zshift_P = 0.;
+   for (int inucleon = 0; inucleon < 197; inucleon++)
+   {
+     if (zshift_T > Target[inucleon].z    ) zshift_T = Target[inucleon].z    ;
+     if (zshift_P < Projectile[inucleon].z) zshift_P = Projectile[inucleon].z;
+   }
+
+   for (int inucleon = 0; inucleon < 197; inucleon++)
+   {
+     Target[inucleon].z     -= zshift_T;
+     Projectile[inucleon].z -= zshift_P;
    }
    return;
  }
