@@ -13,6 +13,7 @@
 #include "./globals.h"
 #include "./binary_collisions.h"
 #include "./nuclei.h"
+#include "./impact.h"
 #include "./propagation.h"
 
 using namespace std;
@@ -28,10 +29,13 @@ int main(int argc, char *argv[]) {
     exit(1);
   }
 
-
+  bool fixed_impact_parameter = true;
   int nevents = 1;
   double sqrtsNN = 200.;
   double sigmaNN = 1.;
+  double impact_parameter_b = 0.;
+  double min_b = 0.;
+  double max_b = 7.5;
   
   double rnum = time(0) + (double)(atoi(sseed.c_str()));
 
@@ -56,8 +60,10 @@ int main(int argc, char *argv[]) {
     Nuclei::Apply_Lorentz_Contraction(Target, Projectile, sqrtsNN);
     Nuclei::Shift_nuclei(Target, Projectile);
 
-//    Impact::Get_impact_parameter();
-//    Impact::Shift_nuclei_transverse();
+    if (! fixed_impact_parameter)
+    impact_parameter_b = Impact::Get_impact_parameter(random, min_b, max_b);
+
+    Impact::Shift_nuclei_transverse(impact_parameter_b, Target, Projectile);
 
     Binary_Collisions::Determine_strings(string_list, Target, Projectile, sqrtsNN, sigmaNN, random);
 
