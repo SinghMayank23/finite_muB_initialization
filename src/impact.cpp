@@ -6,9 +6,9 @@ namespace Impact {
 
  double Get_impact_parameter(gsl_rng* random, double min_b, double max_b)
  {
-   double impact_parameter = gsl_rng_uniform(random);
-   impact_parameter *= (max_b - min_b);
-   impact_parameter += min_b;
+   double impact_parameter = gsl_rng_uniform(random)*(max_b*max_b - min_b*min_b);
+   impact_parameter +=  min_b*min_b;
+   impact_parameter  = sqrt(impact_parameter);
 
    return impact_parameter;
  }
