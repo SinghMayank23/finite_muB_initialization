@@ -17,9 +17,10 @@
 
 namespace Propagation {
 
- void Propagate_strings(std::vector<std::shared_ptr<string_initial>> string_list, std::vector<std::shared_ptr<string_final>> string_final_list,
+ void Propagate_strings(std::vector<std::shared_ptr<string_initial>>& string_list, std::vector<std::shared_ptr<string_final>>& string_final_list,
                                  double sqrtsNN, gsl_rng* random);
  double Sample_y_loss(double yinT, double yinP, gsl_rng* random);
+ double Calculate_total_final_energy(std::vector<std::shared_ptr<string_final>>& string_final_list);
 } 
 
 

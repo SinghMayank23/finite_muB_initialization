@@ -18,7 +18,7 @@
 
 namespace Binary_Collisions {
 
- void Determine_strings(std::vector<std::shared_ptr<string_initial>> string_list, nucleon* Target, nucleon* Projectile,
+ void Determine_strings(std::vector<std::shared_ptr<string_initial>>& string_list, nucleon* Target, nucleon* Projectile,
                                  double sqrtsNN, double sigmaNN, gsl_rng* random);
  bool sort_cond(std::shared_ptr<string_initial> a, std::shared_ptr<string_initial> b);
 } 

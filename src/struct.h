@@ -29,6 +29,10 @@
    double eta_r;
    double y_l;
    double y_r;
+   double y_l_i;
+   double y_r_i;
+   int one_over_rem_l;
+   int one_over_rem_r;
  };
 
 #endif

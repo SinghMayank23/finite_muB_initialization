@@ -4,7 +4,7 @@ using namespace std;
 
 namespace Binary_Collisions {
 
- void Determine_strings(std::vector<std::shared_ptr<string_initial>> string_list, nucleon* Target, nucleon* Projectile,
+ void Determine_strings(std::vector<std::shared_ptr<string_initial>>& string_list, nucleon* Target, nucleon* Projectile,
                                  double sqrtsNN, double sigmaNN, gsl_rng* random)
  {
    int Nconn_T[197], Nconn_P[197];
@@ -13,6 +13,9 @@ namespace Binary_Collisions {
      Nconn_T[inucleon] = 0;
      Nconn_P[inucleon] = 0;
    }
+
+   int sizeofstringlist; 
+
    for (int inucleon_T = 0; inucleon_T < 197; inucleon_T++)
    {
    for(int inucleon_P = 0; inucleon_P < 197; inucleon_P++)
@@ -39,7 +42,11 @@ namespace Binary_Collisions {
          new_string->itarget     = inucleon_T;
          new_string->iprojectile = inucleon_P;
 
+         Nconn_T[inucleon_T]++;
+         Nconn_P[inucleon_P]++;
+
          string_list.push_back(new_string);
+         sizeofstringlist = string_list.size();
        }
      }
    }

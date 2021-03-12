@@ -2,7 +2,7 @@
 
 namespace Propagation {
 
- void Propagate_strings(std::vector<std::shared_ptr<string_initial>> string_list, std::vector<std::shared_ptr<string_final>> string_final_list,
+ void Propagate_strings(std::vector<std::shared_ptr<string_initial>>& string_list, std::vector<std::shared_ptr<string_final>>& string_final_list,
                                  double sqrtsNN, gsl_rng* random)
  {
    double yin_T[197], yin_P[197];
@@ -30,6 +30,8 @@ namespace Propagation {
      double y_deceleration = acosh((pow(delta_tau_f*tension/nucleon_mass,2.)/2.) + 1.);
      double y_l = yin_T[itarget]     + y_deceleration;
      double y_r = yin_P[iprojectile] - y_deceleration;
+     new_string->y_l_i = yin_T[itarget]    ;
+     new_string->y_r_i = yin_P[iprojectile];
      new_string->y_l = y_l;
      new_string->y_r = y_r;
      
@@ -74,6 +76,18 @@ namespace Propagation {
    y_loss = 2.*yin_lrf - y_loss;
 
    return y_loss;
+ }
+
+ double Calculate_total_final_energy(std::vector<std::shared_ptr<string_final>>& string_final_list)
+ {
+   double total_energy = 0.;
+   for (int istring = 0; istring < string_final_list.size(); istring++)
+   {
+     double E_string = (nucleon_mass*cosh(string_final_list[istring]->y_l_i) + nucleon_mass*cosh(string_final_list[istring]->y_r_i)
+                           - nucleon_mass*cosh(string_final_list[istring]->y_l) - nucleon_mass*cosh(string_final_list[istring]->y_r));
+     total_energy += E_string;
+   }
+   return total_energy;
  }
 } 
 
