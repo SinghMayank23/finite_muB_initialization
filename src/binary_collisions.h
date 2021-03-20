@@ -15,12 +15,15 @@
 #include<gsl/gsl_rng.h>
 #include "./struct.h"
 #include "./globals.h"
+#include "./propagation.h"
 
 namespace Binary_Collisions {
 
- void Determine_strings(std::vector<std::shared_ptr<string_initial>>& string_list, nucleon* Target, nucleon* Projectile,
+ void Determine_strings(std::vector<std::shared_ptr<binary_coll>>& binary_list, nucleon* Target, nucleon* Projectile,
                                  double sqrtsNN, double sigmaNN, gsl_rng* random);
- bool sort_cond(std::shared_ptr<string_initial> a, std::shared_ptr<string_initial> b);
+ bool sort_cond(std::shared_ptr<binary_coll> a, std::shared_ptr<binary_coll> b);
+ void Determine_all_collisions(std::vector<std::shared_ptr<binary_coll>>& binary_list, nucleon* Target, nucleon* Projectile,
+                                 double sqrtsNN, double sigmaNN, gsl_rng* random);
 } 
 
 

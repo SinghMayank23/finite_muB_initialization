@@ -6,9 +6,20 @@
    double x;
    double y;
    double z;
+   double time;
+   double rapidity;
  };
 
- struct string_initial
+ struct remnant
+ {
+   double x;
+   double y;
+   double eta;
+   double tau;
+   double rapidity;
+ };
+
+ struct binary_coll
  {
    double time;
    double x;
@@ -16,6 +27,18 @@
    double z;
    int itarget;
    int iprojectile;
+   double rapidity;
+   double y_com;
+ };
+
+ struct gaussians
+ {
+   double tau;
+   double eta_c;
+   double width_eta;
+   double x_c;
+   double y_c;
+   double y_loss;
  };
 
  struct string_final

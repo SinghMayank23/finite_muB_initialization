@@ -2,7 +2,7 @@
 
 namespace Nuclei {
 
- void Initialize_projectile_nucleus(std::ifstream& nucleusfile, int nuclei_number, nucleon* Projectile)
+ void Initialize_projectile_nucleus(std::ifstream& nucleusfile, int nuclei_number, nucleon* Projectile, double sqrtsNN)
  {
    std::string dummy;
    for (int iline = 0; iline < (nuclei_number-1)*197; iline++)//Works only for Au nuclei
@@ -18,11 +18,13 @@ namespace Nuclei {
      Projectile[inucleon].x = posx;
      Projectile[inucleon].y = posy;
      Projectile[inucleon].z = posz;
+     Projectile[inucleon].time = 0.;
+     Projectile[inucleon].rapidity = acosh(sqrtsNN/(2.*nucleon_mass));
    }
    return; 
  }
 
- void Initialize_target_nucleus(std::ifstream& nucleusfile, int nuclei_number, nucleon* Target)
+ void Initialize_target_nucleus(std::ifstream& nucleusfile, int nuclei_number, nucleon* Target, double sqrtsNN)
  {
    std::string dummy;
    for (int iline = 0; iline < (nuclei_number-1)*197; iline++)//Works only for Au nuclei
@@ -37,7 +39,9 @@ namespace Nuclei {
 
      Target[inucleon].x = posx;
      Target[inucleon].y = posy;
-     Target[inucleon].z = posz;
+     Target[inucleon].z = posz; 
+     Target[inucleon].time = 0.; 
+     Target[inucleon].rapidity = -1.*acosh(sqrtsNN/(2.*nucleon_mass));
    }
    return; 
  }
@@ -114,7 +118,7 @@ namespace Nuclei {
    return;
  }
 
- void Shift_nuclei(nucleon* Target, nucleon* Projectile)
+ void Shift_and_sort_nuclei(nucleon* Target, nucleon* Projectile)
  {
    double zshift_T = 0.;
    double zshift_P = 0.;
@@ -128,6 +132,45 @@ namespace Nuclei {
    {
      Target[inucleon].z     -= zshift_T;
      Projectile[inucleon].z -= zshift_P;
+   }
+
+   sortincreasing(Target);
+   sortdecreasing(Projectile);
+   return;
+ }
+
+ void sortincreasing(nucleon* A)
+ {
+   nucleon temporary;
+   for (int inucleon = 0; inucleon < 197; inucleon++)
+   {
+     for (int jnucleon = inucleon; jnucleon < 197; jnucleon++)
+     {
+       if (A[inucleon].z > A[jnucleon].z)
+       {
+         temporary = A[jnucleon];
+         A[jnucleon] = A[inucleon];
+         A[inucleon] = temporary;
+       }
+     } 
+   }
+   return;
+ }
+
+ void sortdecreasing(nucleon* A)
+ {
+   nucleon temporary;
+   for (int inucleon = 0; inucleon < 197; inucleon++)
+   {
+     for (int jnucleon = inucleon; jnucleon < 197; jnucleon++)
+     {
+       if (A[inucleon].z < A[jnucleon].z)
+       {
+         temporary = A[jnucleon];
+         A[jnucleon] = A[inucleon];
+         A[inucleon] = temporary;
+       }
+     } 
    }
    return;
  }

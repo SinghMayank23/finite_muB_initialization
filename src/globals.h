@@ -9,6 +9,10 @@
 #define nucleon_mass (0.939) // GeV
 #endif
 
+#ifndef tau_thermalize
+#define tau_thermalize (0.5) // fm
+#endif
+
 #ifndef tension
 #define tension (1.*0.19733) // GeV^2 = 1. GeV/fm
 #endif
