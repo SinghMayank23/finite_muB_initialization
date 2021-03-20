@@ -1,5 +1,7 @@
 #include "./nuclei.h"
 
+using namespace std;
+
 namespace Nuclei {
 
  void Initialize_projectile_nucleus(std::ifstream& nucleusfile, int nuclei_number, nucleon* Projectile, double sqrtsNN)

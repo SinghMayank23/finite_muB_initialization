@@ -1,5 +1,7 @@
 #include "./propagation.h"
 
+using namespace std;
+
 namespace Propagation {
 
  void Propagate_strings(std::vector<std::shared_ptr<binary_coll>>& string_list, std::vector<std::shared_ptr<string_final>>& string_final_list,
@@ -106,6 +108,7 @@ namespace Propagation {
     new_gaussian->y_loss = binary_list[icoll]->rapidity + binary_list[icoll]->y_com;
 
     double tau = sqrt(pow(binary_list[icoll]->time,2.) - pow(binary_list[icoll]->z,2.)) + tau_thermalize;
+    cout << pow(binary_list[icoll]->time,2.) - pow(binary_list[icoll]->z,2.) << endl;
     new_gaussian->tau = tau;
 
     gaussian_list.push_back(new_gaussian);
