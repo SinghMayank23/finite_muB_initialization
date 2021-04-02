@@ -49,9 +49,10 @@ namespace Write_files {
  {
    for(int igauss = 0; igauss < gaussian_list.size(); igauss++)
    {
-     fprintf(fileout1, "%e %e %e %e %e %e \n", gaussian_list[igauss]->tau      , gaussian_list[igauss]->x_c,
-                                               gaussian_list[igauss]->y_c      , gaussian_list[igauss]->eta_c,
-                                               gaussian_list[igauss]->width_eta, gaussian_list[igauss]->y_loss);
+     fprintf(fileout1, "%e %e %e %e %e %e %e \n", gaussian_list[igauss]->tau      , gaussian_list[igauss]->x_c,
+                                                  gaussian_list[igauss]->y_c      , gaussian_list[igauss]->eta_c,
+                                                  gaussian_list[igauss]->width_eta, gaussian_list[igauss]->energy,
+                                                  gaussian_list[igauss]->p_z     );
    }
    return;
  }
@@ -60,9 +61,9 @@ namespace Write_files {
  {
    for(int irem = 0; irem < remnant_list.size(); irem++)
    {
-     fprintf(fileout2, "%e %e %e %e %e \n",   remnant_list[irem]->tau      , remnant_list[irem]->x,
-                                              remnant_list[irem]->y        , remnant_list[irem]->eta,
-                                              remnant_list[irem]->rapidity);
+     fprintf(fileout2, "%e %e %e %e %e %e \n",   remnant_list[irem]->tau, remnant_list[irem]->x,
+                                              remnant_list[irem]->y     , remnant_list[irem]->eta,
+                                              remnant_list[irem]->energy, remnant_list[irem]->p_z);
    }
    return;
  }

@@ -16,7 +16,8 @@
    double y;
    double eta;
    double tau;
-   double rapidity;
+   double energy;
+   double p_z;
  };
 
  struct binary_coll
@@ -29,6 +30,8 @@
    int iprojectile;
    double rapidity;
    double y_com;
+   double energy;
+   double p_z;
  };
 
  struct gaussians
@@ -38,7 +41,8 @@
    double width_eta;
    double x_c;
    double y_c;
-   double y_loss;
+   double energy;
+   double p_z;
  };
 
  struct string_final

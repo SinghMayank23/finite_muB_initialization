@@ -86,7 +86,7 @@ namespace Binary_Collisions {
          time_shift = Projectile[inucleon_P].time;
        }
        double delta_t = (target_z - projectile_z)/(projectile_velocity-target_velocity);
-       cout << Target[inucleon_T].z << " " << Projectile[inucleon_P].z << " " << target_z << "  " <<  projectile_z << endl;
+//       cout << Target[inucleon_T].z << " " << Projectile[inucleon_P].z << " " << target_z << "  " <<  projectile_z << endl;
 
        double mid_z =  projectile_z + delta_t*projectile_velocity;
 
@@ -101,10 +101,14 @@ namespace Binary_Collisions {
          new_coll->z = mid_z;
          new_coll->itarget     = inucleon_T;
          new_coll->iprojectile = inucleon_P;
+
          new_coll->rapidity = y_loss;
          new_coll->y_com = (Target[inucleon_T].rapidity + Projectile[inucleon_P].rapidity)/2.;
 
-         double lrf_rapidity = Target[inucleon_T].rapidity + Projectile[inucleon_P].rapidity;
+         double y_com =  (Target[inucleon_T].rapidity + Projectile[inucleon_P].rapidity)/2.;
+         double y_T = Target[inucleon_T].rapidity;
+         double y_P = Projectile[inucleon_P].rapidity;
+
          Target[inucleon_T].rapidity     += y_loss/2.;
          Projectile[inucleon_P].rapidity -= y_loss/2.;
          Target[inucleon_T].z     = mid_z;
@@ -112,7 +116,14 @@ namespace Binary_Collisions {
          Target[inucleon_T].time     = time_shift + delta_t;
          Projectile[inucleon_P].time = time_shift + delta_t;
 
-         //cout << inucleon_T << "  " << inucleon_P << "  " << target_velocity << "  " << projectile_velocity << "  " << new_coll->time << "  " << mid_z << "  " << delta_t << endl;
+//         y_loss += y_com;
+
+         double common_factor = 4.*nucleon_mass*sinh(y_loss/4.)*sinh((2.*y_P - 2.*y_T - y_loss)/4.);
+         new_coll->energy = common_factor*cosh((y_P + y_T)/2.);
+         new_coll->p_z    = common_factor*sinh((y_P + y_T)/2.);
+
+//         if (new_coll->energy < 0.)
+//         cout << new_coll->energy << "  " << y_loss << " " << (y_loss - y_com) << endl;
 
          binary_list.push_back(new_coll);
        }

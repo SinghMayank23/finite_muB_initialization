@@ -102,14 +102,19 @@ namespace Propagation {
     new_gaussian->width_eta = gaussian_width;
 
     double eta_c = atanh(binary_list[icoll]->z/binary_list[icoll]->time) + binary_list[icoll]->y_com;
+    double tau = sqrt(pow(binary_list[icoll]->time,2.) - pow(binary_list[icoll]->z,2.)) + tau_thermalize;
     new_gaussian->eta_c = eta_c;
+    new_gaussian->tau = tau;
     new_gaussian->x_c = binary_list[icoll]->x;
     new_gaussian->y_c = binary_list[icoll]->y;
-    new_gaussian->y_loss = binary_list[icoll]->rapidity + binary_list[icoll]->y_com;
 
-    double tau = sqrt(pow(binary_list[icoll]->time,2.) - pow(binary_list[icoll]->z,2.)) + tau_thermalize;
-    cout << pow(binary_list[icoll]->time,2.) - pow(binary_list[icoll]->z,2.) << endl;
-    new_gaussian->tau = tau;
+    double energy_milne =  cosh(eta_c)*binary_list[icoll]->energy - sinh(eta_c)*binary_list[icoll]->p_z;
+    double pz_milne     = -sinh(eta_c)*binary_list[icoll]->energy + cosh(eta_c)*binary_list[icoll]->p_z;
+
+//    new_gaussian->energy = binary_list[icoll]->energy;
+//    new_gaussian->p_z    = binary_list[icoll]->p_z   ;
+    new_gaussian->energy = energy_milne;
+    new_gaussian->p_z    = pz_milne    ;
 
     gaussian_list.push_back(new_gaussian);
    }
@@ -128,7 +133,8 @@ namespace Propagation {
 
        new_remnant->x = Target[inucleon].x;
        new_remnant->y = Target[inucleon].y;
-       new_remnant->rapidity = Target[inucleon].rapidity;
+       
+       double rapidity = Target[inucleon].rapidity;
   
        double tau_i = sqrt(pow(Target[inucleon].time,2.) - pow(Target[inucleon].z,2.));
        new_remnant->tau = tau_i + tau_thermalize;
@@ -141,6 +147,14 @@ namespace Propagation {
        double eta_f = log((-1.*b - sqrt(1-velocity*velocity + b*b))/(velocity-1.));
        new_remnant->eta = eta_f;
 
+       double energy = nucleon_mass*cosh(rapidity);
+       double p_z    = nucleon_mass*sinh(rapidity);
+       double energy_milne =  cosh(eta_f)*energy - sinh(eta_f)*p_z;
+       double pz_milne     = -sinh(eta_f)*energy + cosh(eta_f)*p_z;
+
+       new_remnant->energy = energy_milne;
+       new_remnant->p_z    = pz_milne;
+
        remnant_list.push_back(new_remnant);
      }
      if(abs(Projectile[inucleon].rapidity) < y_beam)
@@ -149,7 +163,8 @@ namespace Propagation {
 
        new_remnant->x = Projectile[inucleon].x;
        new_remnant->y = Projectile[inucleon].y;
-       new_remnant->rapidity = Projectile[inucleon].rapidity;
+       
+       double rapidity = Projectile[inucleon].rapidity;
   
        double tau_i = sqrt(pow(Projectile[inucleon].time,2.) - pow(Projectile[inucleon].z,2.));
        new_remnant->tau = tau_i + tau_thermalize;
@@ -161,6 +176,14 @@ namespace Propagation {
 
        double eta_f = log((-1.*b - sqrt(1-velocity*velocity + b*b))/(velocity-1.));
        new_remnant->eta = eta_f;
+
+       double energy = nucleon_mass*cosh(rapidity);
+       double p_z    = nucleon_mass*sinh(rapidity);
+       double energy_milne =  cosh(eta_f)*energy - sinh(eta_f)*p_z;
+       double pz_milne     = -sinh(eta_f)*energy + cosh(eta_f)*p_z;
+
+       new_remnant->energy = energy_milne;
+       new_remnant->p_z    = pz_milne;
 
        remnant_list.push_back(new_remnant);
      }
