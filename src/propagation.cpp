@@ -101,8 +101,10 @@ namespace Propagation {
 
     new_gaussian->width_eta = gaussian_width;
 
-    double eta_c = atanh(binary_list[icoll]->z/binary_list[icoll]->time) + binary_list[icoll]->y_com;
-    double tau = sqrt(pow(binary_list[icoll]->time,2.) - pow(binary_list[icoll]->z,2.)) + tau_thermalize;
+//    double eta_c = atanh(binary_list[icoll]->z/binary_list[icoll]->time);// + binary_list[icoll]->y_com;
+//    double tau = sqrt(pow(binary_list[icoll]->time,2.) - pow(binary_list[icoll]->z,2.)) + tau_thermalize;
+    double eta_c = atanh(binary_list[icoll]->z/(binary_list[icoll]->time+tau_thermalize));
+    double tau = sqrt(pow((binary_list[icoll]->time+tau_thermalize),2.) - pow(binary_list[icoll]->z,2.));// + tau_thermalize;
     new_gaussian->eta_c = eta_c;
     new_gaussian->tau = tau;
     new_gaussian->x_c = binary_list[icoll]->x;
