@@ -32,6 +32,7 @@
    double y_com;
    double energy;
    double p_z;
+   double sqrtsNN;
  };
 
  struct gaussians

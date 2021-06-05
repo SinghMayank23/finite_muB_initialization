@@ -33,14 +33,16 @@ int main(int argc, char *argv[]) {
   int model_choice = 1;
   bool fixed_impact_parameter = false;
   bool save_nucleon_pos_and_bin_collisions = true;
-  int nevents = 1;
+  int nevents = 10;
   double sqrtsNN = 200.;
   double sigmaNN = 4.2;//4.2 fm^2 (for 200 GeV)
-  double impact_parameter_b = 0.;
+  sigmaNN *= 0.6;
+  double impact_parameter_b = 7.;
   double min_b = 5.;
   double max_b = 7.5;
   
   double rnum = time(0) + (double)(atoi(sseed.c_str()));
+  rnum = 20.;
 
   gsl_rng* random = gsl_rng_alloc(gsl_rng_ranlxs2);
   gsl_rng_set(random,static_cast <unsigned long int> (rnum));
@@ -84,7 +86,7 @@ int main(int argc, char *argv[]) {
       auto gaussian_list = std::vector<std::shared_ptr<gaussians>>();
       auto remnant_list  = std::vector<std::shared_ptr<remnant>>();
       Binary_Collisions::Determine_all_collisions(binary_list, Target, Projectile, sqrtsNN, sigmaNN, random);
-      Propagation::Propagate_gaussians(binary_list, gaussian_list, sqrtsNN);
+      Propagation::Propagate_gaussians(binary_list, gaussian_list);
       Propagation::Propagate_remnants(Target, Projectile, remnant_list, sqrtsNN);
       Write_files::Write_gaussians(gaussian_list, fileout1);
       Write_files::Write_remnants(remnant_list, fileout2);

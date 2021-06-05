@@ -92,13 +92,15 @@ namespace Propagation {
    return total_energy;
  }
 
- void Propagate_gaussians(std::vector<std::shared_ptr<binary_coll>>& binary_list, std::vector<std::shared_ptr<gaussians>>& gaussian_list,double sqrtsNN)
+ void Propagate_gaussians(std::vector<std::shared_ptr<binary_coll>>& binary_list, std::vector<std::shared_ptr<gaussians>>& gaussian_list)
  {
-   double gaussian_width = (3./10.)*log(sqrtsNN/(2.*nucleon_mass));
+
    for (int icoll = 0; icoll < binary_list.size(); icoll++)
    {
     std::shared_ptr<gaussians> new_gaussian(new gaussians);
 
+    double sqrtsNN = binary_list[icoll]->sqrtsNN;
+    double gaussian_width = (3./10.)*log(sqrtsNN/(2.*nucleon_mass));
     new_gaussian->width_eta = gaussian_width;
 
 //    double eta_c = atanh(binary_list[icoll]->z/binary_list[icoll]->time);// + binary_list[icoll]->y_com;
