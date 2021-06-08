@@ -108,7 +108,7 @@ namespace Binary_Collisions {
          double y_T = Target[inucleon_T].rapidity;
          double y_P = Projectile[inucleon_P].rapidity;
 
-         new_coll->sqrtsNN = nucleon_mass*cosh((Target[inucleon_T].rapidity + Projectile[inucleon_P].rapidity)/2.);
+         new_coll->sqrtsNN = 2.*nucleon_mass*cosh((y_P - y_T)/2.);
 
          Target[inucleon_T].rapidity     += y_loss/2.;
          Projectile[inucleon_P].rapidity -= y_loss/2.;
