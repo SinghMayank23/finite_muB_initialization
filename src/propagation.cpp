@@ -101,7 +101,7 @@ namespace Propagation {
 
     double sqrtsNN = binary_list[icoll]->sqrtsNN;
 //    double gaussian_width = (3./10.)*log(sqrtsNN/(2.*nucleon_mass));
-    double gaussian_width = log(sqrtsNN/(2.*nucleon_mass));
+    double gaussian_width = sqrt(log(sqrtsNN/(2.*nucleon_mass)));
     new_gaussian->width_eta = gaussian_width;
 
 //    double eta_c = atanh(binary_list[icoll]->z/binary_list[icoll]->time);// + binary_list[icoll]->y_com;
