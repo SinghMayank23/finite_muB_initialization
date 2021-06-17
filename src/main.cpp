@@ -31,13 +31,13 @@ int main(int argc, char *argv[]) {
   }
 
   int model_choice = 1;
-  bool fixed_impact_parameter = false;
+  bool fixed_impact_parameter = true;
   bool save_nucleon_pos_and_bin_collisions = true;
   int nevents = 10;
   double sqrtsNN = 200.;
   double sigmaNN = 4.2;//4.2 fm^2 (for 200 GeV)
   sigmaNN *= 0.6;
-  double impact_parameter_b = 7.;
+  double impact_parameter_b = 2.3;
   double min_b = 5.;
   double max_b = 7.5;
   

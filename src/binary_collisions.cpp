@@ -117,10 +117,10 @@ namespace Binary_Collisions {
 
 //       y_loss += y_com;
 
-       new_coll->energy = nucleon_mass*(cosh(Target[inucleon_T].rapidity) + cosh(Projectile[inucleon_P].rapidity)
-                                      - cosh(y_T) - cosh(y_P));
-       new_coll->p_z    = nucleon_mass*(sinh(Target[inucleon_T].rapidity) + sinh(Projectile[inucleon_P].rapidity)
-                                      - sinh(y_T) - sinh(y_P));
+       new_coll->energy = nucleon_mass*(cosh(y_T) + cosh(y_P)
+                         - cosh(Target[inucleon_T].rapidity) - cosh(Projectile[inucleon_P].rapidity));
+       new_coll->p_z    = nucleon_mass*(sinh(y_T) + sinh(y_P) 
+                         - sinh(Target[inucleon_T].rapidity) - sinh(Projectile[inucleon_P].rapidity));
 
 //       if (new_coll->energy < 0.)
 //       cout << new_coll->energy << "  " << y_loss << " " << (y_loss - y_com) << endl;
