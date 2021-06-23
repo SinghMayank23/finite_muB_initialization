@@ -297,9 +297,16 @@ namespace Nuclei {
      //Sample nucleon radii. Taking cue from Trento, we sample radii in the range [0,R+10a]
      for (int inucleon = 0; inucleon < nucleon_num; inucleon++)
      {
-       do {
-          radius = (properties.R_WS + 10.*properties.a_WS)*pow(gsl_rng_uniform(random),1./3.);
-       } while (gsl_rng_uniform(random) > (1. + properties.w_WS*pow(radius/properties.R_WS,2.))/(1.+exp((radius - properties.R_WS)/properties.a_WS)));
+       if (properties.density_func == 1)
+       {
+         do {
+            radius = (properties.R_WS + 10.*properties.a_WS)*pow(gsl_rng_uniform(random),1./3.);
+         } while (gsl_rng_uniform(random) > 1./(1.+exp((radius - properties.R_WS)/properties.a_WS)));
+       } else if (properties.density_func == 2){
+         do {
+            radius = (properties.R_WS + 10.*properties.a_WS)*pow(gsl_rng_uniform(random),1./3.);
+         } while (gsl_rng_uniform(random) > (1. + properties.w_WS*pow(radius/properties.R_WS,2.))/(1.+exp((pow(radius,2.) - pow(properties.R_WS,2.))/pow(properties.a_WS,2.))));
+       }
        Radii[inucleon] = radius;
      }
 
