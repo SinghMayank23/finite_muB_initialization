@@ -4,7 +4,7 @@ using namespace std;
 
 namespace Nuclei {
 
- void Initialize_T_P_properties(string nucleusname, nucleus_properties tpproperties)
+ void Initialize_T_P_properties(string nucleusname, nucleus_properties &tpproperties)
  {
    if (nucleusname.compare("p") == 0)
    {
@@ -239,7 +239,7 @@ namespace Nuclei {
    double zshift_T = 0.;
    double zshift_P = 0.;
    for (int inucleon = 0; inucleon < TargetA    ; inucleon++) if (zshift_T > Target[inucleon].z    ) zshift_T = Target[inucleon].z    ;
-   for (int inucleon = 0; inucleon < ProjectileA; inucleon++) if (zshift_P > Projectile[inucleon].z) zshift_P = Projectile[inucleon].z;
+   for (int inucleon = 0; inucleon < ProjectileA; inucleon++) if (zshift_P < Projectile[inucleon].z) zshift_P = Projectile[inucleon].z;
 
    for (int inucleon = 0; inucleon < TargetA    ; inucleon++) Target[inucleon].z     -= zshift_T;
    for (int inucleon = 0; inucleon < ProjectileA; inucleon++) Projectile[inucleon].z -= zshift_P;
@@ -285,44 +285,63 @@ namespace Nuclei {
    return;
  }
 
- void Sample_WS_nucleus(nucleon* Nucleus, double sqrtsNN, gsl_rng* random, nucleus_properties properties)
+ void Sample_WS_nucleus(nucleon* Nucleus, double sqrtsNN, gsl_rng* random, nucleus_properties &properties, bool is_nucleus_going_right)
  {
    int nucleon_num = properties.A;
    double Radii[nucleon_num];
    double radius;
 
-   //Sample nucleon radii. Taking cue from Trento, we sample radii in the range [0,R+10a]
-   for (int inucleon = 0; inucleon < nucleon_num; inucleon++)
-   {
-     do {
-        radius = (properties.R_WS + 10.*properties.a_WS)*pow(gsl_rng_uniform(random),1./3.);
-     } while (gsl_rng_uniform(random) > (1. + properties.w_WS*pow(radius/properties.R_WS,2.))/(1.+exp((radius - properties.R_WS)/properties.a_WS)));
-     Radii[inucleon] = radius;
-   }
+   bool do_we_need_to_sample_radii = true;
 
-   int num = sizeof(Radii)/sizeof(Radii[0]);
-   sort(Radii, Radii + num);
+   do {
+     //Sample nucleon radii. Taking cue from Trento, we sample radii in the range [0,R+10a]
+     for (int inucleon = 0; inucleon < nucleon_num; inucleon++)
+     {
+       do {
+          radius = (properties.R_WS + 10.*properties.a_WS)*pow(gsl_rng_uniform(random),1./3.);
+       } while (gsl_rng_uniform(random) > (1. + properties.w_WS*pow(radius/properties.R_WS,2.))/(1.+exp((radius - properties.R_WS)/properties.a_WS)));
+       Radii[inucleon] = radius;
+     }
+
+     int num = sizeof(Radii)/sizeof(Radii[0]);
+     sort(Radii, Radii + num);
   
-   double theta, phi, posx, posy, posz; 
-   for (int inucleon = 0; inucleon < nucleon_num; inucleon++)
-   {
+     double theta, phi, posx, posy, posz; 
+     for (int inucleon = 0; inucleon < nucleon_num; inucleon++)
+     {
+       int counter = 0;
+       bool theta_phi_okay = true;
+       do {
+          counter += 1;
+          if (counter > 100)
+          {
+            theta_phi_okay = false;
+            break;
+          }
+          theta = acos(1. - 2.*gsl_rng_uniform(random));
+          phi   = 2.*M_PI*gsl_rng_uniform(random);
 
-     do {
-        theta = acos(1. - 2.*gsl_rng_uniform(random));
-        phi   = 2.*M_PI*gsl_rng_uniform(random);
+          posx = Radii[inucleon]*sin(theta)*cos(phi);
+          posy = Radii[inucleon]*sin(theta)*sin(phi);
+          posz = Radii[inucleon]*cos(theta);
 
-        posx = Radii[inucleon]*cos(theta)*cos(phi);
-        posy = Radii[inucleon]*cos(theta)*sin(phi);
-        posz = Radii[inucleon]*sin(theta);
+       } while (Nucleon_is_close(Nucleus, inucleon, posx, posy, posz));
 
-     } while (Nucleon_is_close(Nucleus, inucleon, posx, posy, posz));
+       if(!theta_phi_okay) break;
+       Nucleus[inucleon].x = posx;
+       Nucleus[inucleon].y = posy;
+       Nucleus[inucleon].z = posz;
+       Nucleus[inucleon].time = 0.;
+       if(is_nucleus_going_right)
+       {
+         Nucleus[inucleon].rapidity = acosh(sqrtsNN/(2.*nucleon_mass));
+       } else {
+         Nucleus[inucleon].rapidity = -1.*acosh(sqrtsNN/(2.*nucleon_mass));
+       }
+       if(inucleon == (nucleon_num - 1)) do_we_need_to_sample_radii = false;
+     }
+   } while(do_we_need_to_sample_radii);
 
-     Nucleus[inucleon].x = posx;
-     Nucleus[inucleon].y = posy;
-     Nucleus[inucleon].z = posz;
-     Nucleus[inucleon].time = 0.;
-     Nucleus[inucleon].rapidity = acosh(sqrtsNN/(2.*nucleon_mass));
-   }
    return; 
  }
 

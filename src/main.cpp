@@ -30,22 +30,21 @@ int main(int argc, char *argv[]) {
     sseed = "0";
   }
 
-  string targetname     = "Au";
-  string projectilename = "Au";
+  string targetname     = "S";
+  string projectilename = "S";
   int model_choice = 1;
-  bool read_nucleon_pos_from_file = "false";
+  bool read_nucleon_pos_from_file = false;
   bool fixed_impact_parameter = true;
   bool save_nucleon_pos_and_bin_collisions = true;
-  int nevents = 10;
+  int nevents = 100;
   double sqrtsNN = 200.;
   double sigmaNN = 4.2;//4.2 fm^2 (for 200 GeV)
   sigmaNN *= 0.6;
-  double impact_parameter_b = 2.3;
+  double impact_parameter_b = 0.;
   double min_b = 5.;
   double max_b = 7.5;
   
   double rnum = time(0) + (double)(atoi(sseed.c_str()));
-  rnum = 20.;
 
   gsl_rng* random = gsl_rng_alloc(gsl_rng_ranlxs2);
   gsl_rng_set(random,static_cast <unsigned long int> (rnum));
@@ -63,17 +62,16 @@ int main(int argc, char *argv[]) {
   for (int ievents = 0; ievents < nevents; ievents++)
   {
 
-
-    nucleon Target[T_properties.A];
-    nucleon Projectile[P_properties.A];
+    nucleon *Target     = new nucleon [T_properties.A];
+    nucleon *Projectile = new nucleon [P_properties.A];
 
     if(read_nucleon_pos_from_file)
     {
       Nuclei::Initialize_projectile_nucleus(nucleusfile, nuclei_number, Projectile, sqrtsNN);
       Nuclei::Initialize_target_nucleus(nucleusfile, nuclei_number, Target, sqrtsNN);
     } else {
-      Nuclei::Sample_WS_nucleus(Projectile, sqrtsNN, random, P_properties);
-      Nuclei::Sample_WS_nucleus(Target, sqrtsNN, random, T_properties);
+      Nuclei::Sample_WS_nucleus(Projectile, sqrtsNN, random, P_properties, true);
+      Nuclei::Sample_WS_nucleus(Target, sqrtsNN, random, T_properties, false);
     }
 
     Nuclei::Apply_random_rotation(Target, Projectile, random, T_properties.A, P_properties.A);
@@ -138,6 +136,8 @@ int main(int argc, char *argv[]) {
       fclose(fileout2);
     }
 
+    delete [] Target;
+    delete [] Projectile;
   }
 
   gsl_rng_free(random);
