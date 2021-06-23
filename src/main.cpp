@@ -30,14 +30,14 @@ int main(int argc, char *argv[]) {
     sseed = "0";
   }
 
-  string targetname     = "S";
-  string projectilename = "S";
+  string targetname     = "Au";
+  string projectilename = "Au";
   int model_choice = 1;
   bool read_nucleon_pos_from_file = false;
   bool fixed_impact_parameter = true;
   bool save_nucleon_pos_and_bin_collisions = true;
   int nevents = 100;
-  double sqrtsNN = 200.;
+  double sqrtsNN = 19.415;
   double sigmaNN = 4.2;//4.2 fm^2 (for 200 GeV)
   sigmaNN *= 0.6;
   double impact_parameter_b = 0.;

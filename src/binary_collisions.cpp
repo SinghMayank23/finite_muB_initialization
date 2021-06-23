@@ -108,8 +108,16 @@ namespace Binary_Collisions {
 
        new_coll->sqrtsNN = 2.*nucleon_mass*cosh((y_P - y_T)/2.);
 
-       Target[inucleon_T].rapidity     -= y_loss*y_T/(y_P - y_T);
-       Projectile[inucleon_P].rapidity -= y_loss*y_P/(y_P - y_T);
+       if (Target[inucleon_T].rapidity < Projectile[inucleon_P].rapidity)
+       {
+         Target[inucleon_T].rapidity     += y_loss/2.;
+         Projectile[inucleon_P].rapidity -= y_loss/2.;
+       } else {
+         Target[inucleon_T].rapidity     -= y_loss/2.;
+         Projectile[inucleon_P].rapidity += y_loss/2.;
+       }
+//       Target[inucleon_T].rapidity     -= y_loss*y_T/(y_P - y_T);
+//       Projectile[inucleon_P].rapidity -= y_loss*y_P/(y_P - y_T);
        Target[inucleon_T].z     = mid_z;
        Projectile[inucleon_P].z = mid_z;
        Target[inucleon_T].time     = time_shift + delta_t;
