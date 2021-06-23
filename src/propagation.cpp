@@ -126,11 +126,12 @@ namespace Propagation {
    return;
  }
 
- void Propagate_remnants(nucleon* Target, nucleon* Projectile, std::vector<std::shared_ptr<remnant>>& remnant_list, double sqrtsNN)
+ void Propagate_remnants(nucleon* Target, nucleon* Projectile, std::vector<std::shared_ptr<remnant>>& remnant_list, double sqrtsNN,
+                        int TargetA, int ProjectileA)
  {
    double y_beam = acosh(sqrtsNN/(2.*nucleon_mass));
 
-   for (int inucleon = 0; inucleon < 197; inucleon++)
+   for (int inucleon = 0; inucleon < TargetA; inucleon++)
    {
      if(abs(Target[inucleon].rapidity) < y_beam)
      {
@@ -162,6 +163,9 @@ namespace Propagation {
 
        remnant_list.push_back(new_remnant);
      }
+   }
+   for (int inucleon = 0; inucleon < ProjectileA; inucleon++)
+   {
      if(abs(Projectile[inucleon].rapidity) < y_beam)
      {
        std::shared_ptr<remnant> new_remnant(new remnant);

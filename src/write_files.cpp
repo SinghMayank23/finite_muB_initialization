@@ -3,13 +3,19 @@
 using namespace std;
 
 namespace Write_files {
- void Write_nucleon_positions_and_binary_collisions(nucleon* Target, nucleon* Projectile, std::vector<std::shared_ptr<binary_coll>>& string_list, FILE *fileout1)
+ void Write_nucleon_positions_and_binary_collisions(nucleon* Target, nucleon* Projectile, std::vector<std::shared_ptr<binary_coll>>& string_list, FILE *fileout1,
+                                                    int TargetA, int ProjectileA)
  {
-   fprintf(fileout1, "%s \n", "Target x, y, z; Projectile x, y, z");
-   for (int inucleon = 0; inucleon < 197; inucleon++)
+   fprintf(fileout1, "%s \n", "Target x, y, z");
+   for (int inucleon = 0; inucleon < TargetA; inucleon++)
    {
-     fprintf(fileout1, "%e %e %e %e %e %e \n", Target[inucleon].x, Target[inucleon].y, Target[inucleon].z,
-                                   Projectile[inucleon].x, Projectile[inucleon].y, Projectile[inucleon].z);
+     fprintf(fileout1, "%e %e %e\n", Target[inucleon].x, Target[inucleon].y, Target[inucleon].z);
+   }
+   fprintf(fileout1, "\n");
+   fprintf(fileout1, "%s \n", "Projectile x, y, z");
+   for (int inucleon = 0; inucleon < ProjectileA; inucleon++)
+   {
+     fprintf(fileout1, "%e %e %e \n", Projectile[inucleon].x, Projectile[inucleon].y, Projectile[inucleon].z);
    }
    fprintf(fileout1, "\n");
 

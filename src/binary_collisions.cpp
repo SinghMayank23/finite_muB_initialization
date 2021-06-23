@@ -57,13 +57,13 @@ namespace Binary_Collisions {
  }
 
  void Determine_all_collisions(std::vector<std::shared_ptr<binary_coll>>& binary_list, nucleon* Target, nucleon* Projectile,
-                                 double sqrtsNN, double sigmaNN, gsl_rng* random)
+                                 double sqrtsNN, double sigmaNN, gsl_rng* random, int TargetA, int ProjectileA)
  {
    int sizeofbinarylist; 
 
-   for (int inucleon_T = 0; inucleon_T < 197; inucleon_T++)
+   for (int inucleon_T = 0; inucleon_T < TargetA; inucleon_T++)
    {
-   for(int inucleon_P = 0; inucleon_P < 197; inucleon_P++)
+   for(int inucleon_P = 0; inucleon_P < ProjectileA; inucleon_P++)
    {
      double distance = sqrt(pow((Target[inucleon_T].x - Projectile[inucleon_P].x), 2.)
                           + pow((Target[inucleon_T].y - Projectile[inucleon_P].y), 2.));

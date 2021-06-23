@@ -15,10 +15,12 @@
 #include "./globals.h"
 #include "./struct.h"
 
+using namespace std;
+
 namespace Impact {
 
  double Get_impact_parameter(gsl_rng* random, double min_b, double max_b);
- void Shift_nuclei_transverse(double impact_parameter_b, nucleon* Target, nucleon* Projectile);
+ void Shift_nuclei_transverse(double impact_parameter_b, nucleon* Target, nucleon* Projectile, int TargetA, int ProjectileA);
 }
 
 

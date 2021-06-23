@@ -1,6 +1,16 @@
 #ifndef _SRC_STRUCT_H_
 #define _SRC_STRUCT_H_
 
+ struct nucleus_properties
+ {
+   int Z;
+   int A;
+   int density_func;// 1= 3Fermi, 2= 3Gauss, 3= 2HO
+   double R_WS;
+   double w_WS;
+   double a_WS;
+ };
+
  struct nucleon
  {
    double x;

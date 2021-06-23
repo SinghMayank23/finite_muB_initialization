@@ -30,7 +30,10 @@ int main(int argc, char *argv[]) {
     sseed = "0";
   }
 
+  string targetname     = "Au";
+  string projectilename = "Au";
   int model_choice = 1;
+  bool read_nucleon_pos_from_file = "false";
   bool fixed_impact_parameter = true;
   bool save_nucleon_pos_and_bin_collisions = true;
   int nevents = 10;
@@ -50,26 +53,37 @@ int main(int argc, char *argv[]) {
   int nuclei_number = 1;//set 0 for start reading from current line
   std::ifstream nucleusfile("../au197-sw-full_3Bchains-conf1820.dat");
 
-   FILE *fileout1, *fileout2;
+  FILE *fileout1, *fileout2;
+  
+  nucleus_properties T_properties;
+  nucleus_properties P_properties;
+  Nuclei::Initialize_T_P_properties(targetname, T_properties);
+  Nuclei::Initialize_T_P_properties(projectilename, P_properties);
 
   for (int ievents = 0; ievents < nevents; ievents++)
   {
 
 
-    nucleon Target[197];
-    nucleon Projectile[197];
+    nucleon Target[T_properties.A];
+    nucleon Projectile[P_properties.A];
 
-    Nuclei::Initialize_projectile_nucleus(nucleusfile, nuclei_number, Projectile, sqrtsNN);
-    Nuclei::Initialize_target_nucleus(nucleusfile, nuclei_number, Target, sqrtsNN);
+    if(read_nucleon_pos_from_file)
+    {
+      Nuclei::Initialize_projectile_nucleus(nucleusfile, nuclei_number, Projectile, sqrtsNN);
+      Nuclei::Initialize_target_nucleus(nucleusfile, nuclei_number, Target, sqrtsNN);
+    } else {
+      Nuclei::Sample_WS_nucleus(Projectile, sqrtsNN, random, P_properties);
+      Nuclei::Sample_WS_nucleus(Target, sqrtsNN, random, T_properties);
+    }
 
-    Nuclei::Apply_random_rotation(Target, Projectile, random);
-    Nuclei::Apply_Lorentz_Contraction(Target, Projectile, sqrtsNN);
-    Nuclei::Shift_and_sort_nuclei(Target, Projectile);
+    Nuclei::Apply_random_rotation(Target, Projectile, random, T_properties.A, P_properties.A);
+    Nuclei::Apply_Lorentz_Contraction(Target, Projectile, sqrtsNN, T_properties.A, P_properties.A);
+    Nuclei::Shift_and_sort_nuclei(Target, Projectile, T_properties.A, P_properties.A);
 
     if (! fixed_impact_parameter)
     impact_parameter_b = Impact::Get_impact_parameter(random, min_b, max_b);
 
-    Impact::Shift_nuclei_transverse(impact_parameter_b, Target, Projectile);
+    Impact::Shift_nuclei_transverse(impact_parameter_b, Target, Projectile, T_properties.A, P_properties.A);
 
     cout << "Impact_parameter = " << impact_parameter_b << endl;
 
@@ -85,9 +99,10 @@ int main(int argc, char *argv[]) {
       auto binary_list = std::vector<std::shared_ptr<binary_coll>>();
       auto gaussian_list = std::vector<std::shared_ptr<gaussians>>();
       auto remnant_list  = std::vector<std::shared_ptr<remnant>>();
-      Binary_Collisions::Determine_all_collisions(binary_list, Target, Projectile, sqrtsNN, sigmaNN, random);
+      Binary_Collisions::Determine_all_collisions(binary_list, Target, Projectile, sqrtsNN, sigmaNN, random,
+                                                 T_properties.A, P_properties.A);
       Propagation::Propagate_gaussians(binary_list, gaussian_list);
-      Propagation::Propagate_remnants(Target, Projectile, remnant_list, sqrtsNN);
+      Propagation::Propagate_remnants(Target, Projectile, remnant_list, sqrtsNN, T_properties.A, P_properties.A);
       Write_files::Write_gaussians(gaussian_list, fileout1);
       Write_files::Write_remnants(remnant_list, fileout2);
 
@@ -110,7 +125,7 @@ int main(int argc, char *argv[]) {
       auto string_final_list = std::vector<std::shared_ptr<string_final>>();
       Binary_Collisions::Determine_strings(binary_list, Target, Projectile, sqrtsNN, sigmaNN, random);
   
-      if (save_nucleon_pos_and_bin_collisions) Write_files::Write_nucleon_positions_and_binary_collisions(Target, Projectile, binary_list, fileout1);
+      if (save_nucleon_pos_and_bin_collisions) Write_files::Write_nucleon_positions_and_binary_collisions(Target, Projectile, binary_list, fileout1, T_properties.A, P_properties.A);
   
       Propagation::Propagate_strings(binary_list, string_final_list, sqrtsNN, random);
       double total_energy = Propagation::Calculate_total_final_energy(string_final_list);

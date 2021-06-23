@@ -13,13 +13,10 @@ namespace Impact {
    return impact_parameter;
  }
 
- void Shift_nuclei_transverse(double impact_parameter_b, nucleon* Target, nucleon* Projectile)
+ void Shift_nuclei_transverse(double impact_parameter_b, nucleon* Target, nucleon* Projectile, int TargetA, int ProjectileA)
  {
-   for (int inucleon = 0; inucleon < 197; inucleon++)
-   {
-     Target[inucleon].x     += impact_parameter_b/2.;
-     Projectile[inucleon].x -= impact_parameter_b/2.;
-   }
+   for (int inucleon = 0; inucleon < TargetA    ; inucleon++) Target[inucleon].x     += impact_parameter_b/2.;
+   for (int inucleon = 0; inucleon < ProjectileA; inucleon++) Projectile[inucleon].x -= impact_parameter_b/2.;
    return;
  }
 

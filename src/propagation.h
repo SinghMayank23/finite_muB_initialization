@@ -22,7 +22,7 @@ namespace Propagation {
  double Sample_y_loss(double yinT, double yinP, gsl_rng* random);
  double Calculate_total_final_energy(std::vector<std::shared_ptr<string_final>>& string_final_list);
  void Propagate_gaussians(std::vector<std::shared_ptr<binary_coll>>& binary_list, std::vector<std::shared_ptr<gaussians>>& gaussian_list);
- void Propagate_remnants(nucleon* Target, nucleon* Projectile, std::vector<std::shared_ptr<remnant>>& remnant_list, double sqrtsNN);
+ void Propagate_remnants(nucleon* Target, nucleon* Projectile, std::vector<std::shared_ptr<remnant>>& remnant_list, double sqrtsNN, int TargetA, int ProjectileA);
 } 
 
 

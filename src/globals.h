@@ -13,6 +13,10 @@
 #define tau_thermalize (0.5) // fm
 #endif
 
+#ifndef dmin
+#define dmin (0.9) // fm
+#endif
+
 #ifndef tension
 #define tension (1.*0.19733) // GeV^2 = 1. GeV/fm
 #endif
