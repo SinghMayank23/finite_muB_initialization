@@ -60,8 +60,8 @@ int main() {
   for (int ievent = 0; ievent < number_of_events; ievent++)
   {
     fprintf(outfile , "%d %e \n", (int)energies[0][ievent], energies[1][ievent]);
-    fprintf(outfile2, "%s%d%s%d%s \n","mv gaussian_", (int)energies[0][ievent], ".dat gaussian_", ievent, ".dat");
-    fprintf(outfile2, "%s%d%s%d%s \n","mv remnant_", (int)energies[0][ievent], ".dat remnant_", ievent, ".dat");
+    fprintf(outfile2, "%s%d%s%d%s \n","mv gaussians_", (int)energies[0][ievent], ".dat gaussians_", ievent, ".dat");
+    fprintf(outfile2, "%s%d%s%d%s \n","mv remnants_", (int)energies[0][ievent], ".dat remnants_", ievent, ".dat");
   } 
   fclose(outfile);
 
