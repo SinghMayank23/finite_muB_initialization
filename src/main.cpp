@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
   int nevents = 100;
   double sqrtsNN = 19.415;
   double sigmaNN = 4.2;//4.2 fm^2 (for 200 GeV)
-  sigmaNN *= 0.6;
+  double fraction_of_inelastic_coll = 0.6;//between 0 and 1
   double impact_parameter_b = 0.;
   double min_b = 5.;
   double max_b = 7.5;
@@ -98,7 +98,7 @@ int main(int argc, char *argv[]) {
       auto gaussian_list = std::vector<std::shared_ptr<gaussians>>();
       auto remnant_list  = std::vector<std::shared_ptr<remnant>>();
       Binary_Collisions::Determine_all_collisions(binary_list, Target, Projectile, sqrtsNN, sigmaNN, random,
-                                                 T_properties.A, P_properties.A);
+                                                 T_properties.A, P_properties.A, fraction_of_inelastic_coll);
       Propagation::Propagate_gaussians(binary_list, gaussian_list);
       Propagation::Propagate_remnants(Target, Projectile, remnant_list, sqrtsNN, T_properties.A, P_properties.A);
       Write_files::Write_gaussians(gaussian_list, fileout1);

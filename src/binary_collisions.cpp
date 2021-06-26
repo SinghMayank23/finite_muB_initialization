@@ -57,7 +57,7 @@ namespace Binary_Collisions {
  }
 
  void Determine_all_collisions(std::vector<std::shared_ptr<binary_coll>>& binary_list, nucleon* Target, nucleon* Projectile,
-                                 double sqrtsNN, double sigmaNN, gsl_rng* random, int TargetA, int ProjectileA)
+      double sqrtsNN, double sigmaNN, gsl_rng* random, int TargetA, int ProjectileA, double inelastic_fraction)
  {
    int sizeofbinarylist; 
 
@@ -69,71 +69,74 @@ namespace Binary_Collisions {
                           + pow((Target[inucleon_T].y - Projectile[inucleon_P].y), 2.));
      if (distance < sqrt(sigmaNN/M_PI))
      {
-
-       double target_velocity     = tanh(Target[inucleon_T].rapidity)    ;
-       double projectile_velocity = tanh(Projectile[inucleon_P].rapidity);
-
-       double target_z, projectile_z, time_shift;
-       if (Target[inucleon_T].time > Projectile[inucleon_P].time)
+       double rand  = gsl_rng_uniform(random);
+       if (rand > inelastic_fraction)
        {
-         target_z = Target[inucleon_T].z;
-         projectile_z = Projectile[inucleon_P].z + (Target[inucleon_T].time - Projectile[inucleon_P].time)*projectile_velocity;
-         time_shift = Target[inucleon_T].time;
-       } else
-       {
-         projectile_z = Projectile[inucleon_P].z;
-         target_z = Target[inucleon_T].z + (Projectile[inucleon_P].time - Target[inucleon_T].time)*target_velocity;
-         time_shift = Projectile[inucleon_P].time;
+         double target_velocity     = tanh(Target[inucleon_T].rapidity)    ;
+         double projectile_velocity = tanh(Projectile[inucleon_P].rapidity);
+
+         double target_z, projectile_z, time_shift;
+         if (Target[inucleon_T].time > Projectile[inucleon_P].time)
+         {
+           target_z = Target[inucleon_T].z;
+           projectile_z = Projectile[inucleon_P].z + (Target[inucleon_T].time - Projectile[inucleon_P].time)*projectile_velocity;
+           time_shift = Target[inucleon_T].time;
+         } else
+         {
+           projectile_z = Projectile[inucleon_P].z;
+           target_z = Target[inucleon_T].z + (Projectile[inucleon_P].time - Target[inucleon_T].time)*target_velocity;
+           time_shift = Projectile[inucleon_P].time;
+         }
+         double delta_t = (target_z - projectile_z)/(projectile_velocity-target_velocity);
+//         cout << Target[inucleon_T].z << " " << Projectile[inucleon_P].z << " " << target_z << "  " <<  projectile_z << endl;
+
+         double mid_z =  projectile_z + delta_t*projectile_velocity;
+
+         double y_loss = Propagation::Sample_y_loss(Target[inucleon_T].rapidity, Projectile[inucleon_P].rapidity, random);
+
+         std::shared_ptr<binary_coll> new_coll(new binary_coll);
+         new_coll->time = time_shift + delta_t;
+         new_coll->x = (Target[inucleon_T].x + Projectile[inucleon_P].x)/2.;
+         new_coll->y = (Target[inucleon_T].y + Projectile[inucleon_P].y)/2.;
+         new_coll->z = mid_z;
+         new_coll->itarget     = inucleon_T;
+         new_coll->iprojectile = inucleon_P;
+
+         new_coll->rapidity = y_loss;
+         new_coll->y_com = (Target[inucleon_T].rapidity + Projectile[inucleon_P].rapidity)/2.;
+
+         double y_T = Target[inucleon_T].rapidity;
+         double y_P = Projectile[inucleon_P].rapidity;
+
+         new_coll->sqrtsNN = 2.*nucleon_mass*cosh((y_P - y_T)/2.);
+
+         if (Target[inucleon_T].rapidity < Projectile[inucleon_P].rapidity)
+         {
+           Target[inucleon_T].rapidity     += y_loss/2.;
+           Projectile[inucleon_P].rapidity -= y_loss/2.;
+         } else {
+           Target[inucleon_T].rapidity     -= y_loss/2.;
+           Projectile[inucleon_P].rapidity += y_loss/2.;
+         }
+//         Target[inucleon_T].rapidity     -= y_loss*y_T/(y_P - y_T);
+//         Projectile[inucleon_P].rapidity -= y_loss*y_P/(y_P - y_T);
+         Target[inucleon_T].z     = mid_z;
+         Projectile[inucleon_P].z = mid_z;
+         Target[inucleon_T].time     = time_shift + delta_t;
+         Projectile[inucleon_P].time = time_shift + delta_t;
+
+//         y_loss += y_com;
+
+         new_coll->energy = nucleon_mass*(cosh(y_T) + cosh(y_P)
+                           - cosh(Target[inucleon_T].rapidity) - cosh(Projectile[inucleon_P].rapidity));
+         new_coll->p_z    = nucleon_mass*(sinh(y_T) + sinh(y_P) 
+                           - sinh(Target[inucleon_T].rapidity) - sinh(Projectile[inucleon_P].rapidity));
+
+//         if (new_coll->energy < 0.)
+//         cout << new_coll->energy << "  " << y_loss << " " << (y_loss - y_com) << endl;
+
+         binary_list.push_back(new_coll);
        }
-       double delta_t = (target_z - projectile_z)/(projectile_velocity-target_velocity);
-//       cout << Target[inucleon_T].z << " " << Projectile[inucleon_P].z << " " << target_z << "  " <<  projectile_z << endl;
-
-       double mid_z =  projectile_z + delta_t*projectile_velocity;
-
-       double y_loss = Propagation::Sample_y_loss(Target[inucleon_T].rapidity, Projectile[inucleon_P].rapidity, random);
-
-       std::shared_ptr<binary_coll> new_coll(new binary_coll);
-       new_coll->time = time_shift + delta_t;
-       new_coll->x = (Target[inucleon_T].x + Projectile[inucleon_P].x)/2.;
-       new_coll->y = (Target[inucleon_T].y + Projectile[inucleon_P].y)/2.;
-       new_coll->z = mid_z;
-       new_coll->itarget     = inucleon_T;
-       new_coll->iprojectile = inucleon_P;
-
-       new_coll->rapidity = y_loss;
-       new_coll->y_com = (Target[inucleon_T].rapidity + Projectile[inucleon_P].rapidity)/2.;
-
-       double y_T = Target[inucleon_T].rapidity;
-       double y_P = Projectile[inucleon_P].rapidity;
-
-       new_coll->sqrtsNN = 2.*nucleon_mass*cosh((y_P - y_T)/2.);
-
-       if (Target[inucleon_T].rapidity < Projectile[inucleon_P].rapidity)
-       {
-         Target[inucleon_T].rapidity     += y_loss/2.;
-         Projectile[inucleon_P].rapidity -= y_loss/2.;
-       } else {
-         Target[inucleon_T].rapidity     -= y_loss/2.;
-         Projectile[inucleon_P].rapidity += y_loss/2.;
-       }
-//       Target[inucleon_T].rapidity     -= y_loss*y_T/(y_P - y_T);
-//       Projectile[inucleon_P].rapidity -= y_loss*y_P/(y_P - y_T);
-       Target[inucleon_T].z     = mid_z;
-       Projectile[inucleon_P].z = mid_z;
-       Target[inucleon_T].time     = time_shift + delta_t;
-       Projectile[inucleon_P].time = time_shift + delta_t;
-
-//       y_loss += y_com;
-
-       new_coll->energy = nucleon_mass*(cosh(y_T) + cosh(y_P)
-                         - cosh(Target[inucleon_T].rapidity) - cosh(Projectile[inucleon_P].rapidity));
-       new_coll->p_z    = nucleon_mass*(sinh(y_T) + sinh(y_P) 
-                         - sinh(Target[inucleon_T].rapidity) - sinh(Projectile[inucleon_P].rapidity));
-
-//       if (new_coll->energy < 0.)
-//       cout << new_coll->energy << "  " << y_loss << " " << (y_loss - y_com) << endl;
-
-       binary_list.push_back(new_coll);
      }
    }
    }

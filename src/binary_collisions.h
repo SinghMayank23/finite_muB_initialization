@@ -23,7 +23,7 @@ namespace Binary_Collisions {
                                  double sqrtsNN, double sigmaNN, gsl_rng* random);
  bool sort_cond(std::shared_ptr<binary_coll> a, std::shared_ptr<binary_coll> b);
  void Determine_all_collisions(std::vector<std::shared_ptr<binary_coll>>& binary_list, nucleon* Target, nucleon* Projectile,
-                                 double sqrtsNN, double sigmaNN, gsl_rng* random, int TargetA, int ProjectileA);
+    double sqrtsNN, double sigmaNN, gsl_rng* random, int TargetA, int ProjectileA, double inelastic_fraction);
 } 
 
 
