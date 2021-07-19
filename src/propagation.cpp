@@ -113,6 +113,8 @@ namespace Propagation {
     new_gaussian->x_c = binary_list[icoll]->x;
     new_gaussian->y_c = binary_list[icoll]->y;
 
+    cout << binary_list[icoll]->time << "  " << tau << "  " << binary_list[icoll]->z << "  " << eta_c << endl;
+
     double energy_milne =  cosh(eta_c)*binary_list[icoll]->energy - sinh(eta_c)*binary_list[icoll]->p_z;
     double pz_milne     = -sinh(eta_c)*binary_list[icoll]->energy + cosh(eta_c)*binary_list[icoll]->p_z;
 

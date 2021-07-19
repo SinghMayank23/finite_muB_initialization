@@ -69,8 +69,9 @@ namespace Binary_Collisions {
                           + pow((Target[inucleon_T].y - Projectile[inucleon_P].y), 2.));
      if (distance < sqrt(sigmaNN/M_PI))
      {
+       double multiply_rapidities = Target[inucleon_T].rapidity*Projectile[inucleon_P].rapidity;
        double rand  = gsl_rng_uniform(random);
-       if (rand > inelastic_fraction)
+       if (rand > inelastic_fraction && multiply_rapidities < 0.)
        {
          double target_velocity     = tanh(Target[inucleon_T].rapidity)    ;
          double projectile_velocity = tanh(Projectile[inucleon_P].rapidity);
