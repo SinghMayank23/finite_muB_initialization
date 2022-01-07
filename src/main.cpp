@@ -34,15 +34,15 @@ int main(int argc, char *argv[]) {
   string projectilename = "Au";
   int model_choice = 1;
   bool read_nucleon_pos_from_file = false;
-  bool fixed_impact_parameter = true;
+  bool fixed_impact_parameter = false;
   bool save_nucleon_pos_and_bin_collisions = true;
   int nevents = 10000;
-  double sqrtsNN = 7.7;
+  double sqrtsNN = 11.5;//7.7,11.5,14.5,27,62.4,200
   double sigmaNN = 4.2;//4.2 fm^2 (for 200 GeV)
-  double fraction_of_inelastic_coll = 0.6;//between 0 and 1
+  double fraction_of_inelastic_coll = 0.6;//LEXUS says 60%
   double impact_parameter_b = 0.;
-  double min_b = 5.;
-  double max_b = 6.;
+  double min_b = 0.;
+  double max_b = 20.;
   
   double rnum = time(0) + (double)(atoi(sseed.c_str()));
 

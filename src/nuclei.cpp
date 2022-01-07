@@ -14,6 +14,8 @@ namespace Nuclei {
      tpproperties.R_WS = 1.0;
      tpproperties.w_WS = 0.0;
      tpproperties.a_WS = 1.0;
+     tpproperties.beta2 = 0.0;
+     tpproperties.beta3 = 0.0;
    } else if (nucleusname.compare("C") == 0)
    {
      tpproperties.Z = 6;
@@ -22,6 +24,8 @@ namespace Nuclei {
      tpproperties.R_WS = 2.44;
      tpproperties.w_WS = 1.403;
      tpproperties.a_WS = 1.635;
+     tpproperties.beta2 = 0.0;
+     tpproperties.beta3 = 0.0;
    } else if (nucleusname.compare("O") == 0)
    {
      tpproperties.Z = 8;
@@ -30,6 +34,8 @@ namespace Nuclei {
      tpproperties.R_WS = 2.608;
      tpproperties.w_WS = -0.051;
      tpproperties.a_WS = 0.513;
+     tpproperties.beta2 = 0.0;
+     tpproperties.beta3 = 0.0;
    } else if (nucleusname.compare("S") == 0)
    {
      tpproperties.Z = 16;
@@ -38,6 +44,8 @@ namespace Nuclei {
      tpproperties.R_WS = 2.54;
      tpproperties.w_WS = 0.16;
      tpproperties.a_WS = 2.191;
+     tpproperties.beta2 = 0.0;
+     tpproperties.beta3 = 0.0;
    } else if (nucleusname.compare("W") == 0)
    {
      tpproperties.Z = 74;
@@ -46,6 +54,8 @@ namespace Nuclei {
      tpproperties.R_WS = 6.51;
      tpproperties.w_WS = 0.0;
      tpproperties.a_WS = 0.535;
+     tpproperties.beta2 = 0.0;
+     tpproperties.beta3 = 0.0;
    } else if (nucleusname.compare("Al") == 0)
    {
      tpproperties.Z = 13;
@@ -54,6 +64,8 @@ namespace Nuclei {
      tpproperties.R_WS = 3.07;
      tpproperties.w_WS = 0.0;
      tpproperties.a_WS = 0.519;
+     tpproperties.beta2 = 0.0;
+     tpproperties.beta3 = 0.0;
    } else if (nucleusname.compare("Au") == 0)
    {
      tpproperties.Z = 79;
@@ -62,6 +74,8 @@ namespace Nuclei {
      tpproperties.R_WS = 6.38;
      tpproperties.w_WS = 0.0;
      tpproperties.a_WS = 0.535;
+     tpproperties.beta2 = 0.0;
+     tpproperties.beta3 = 0.0;
    } else if (nucleusname.compare("Ca") == 0)
    {
      tpproperties.Z = 20;
@@ -70,6 +84,8 @@ namespace Nuclei {
      tpproperties.R_WS = 3.766;
      tpproperties.w_WS = -0.161;
      tpproperties.a_WS = 0.586;
+     tpproperties.beta2 = 0.0;
+     tpproperties.beta3 = 0.0;
    } else if (nucleusname.compare("Cu") == 0)
    {
      tpproperties.Z = 29;
@@ -78,6 +94,8 @@ namespace Nuclei {
      tpproperties.R_WS = 4.163;
      tpproperties.w_WS = 0.0;
      tpproperties.a_WS = 0.606;
+     tpproperties.beta2 = 0.0;
+     tpproperties.beta3 = 0.0;
    } else if (nucleusname.compare("Fe") == 0)
    {
      tpproperties.Z = 26;
@@ -86,6 +104,8 @@ namespace Nuclei {
      tpproperties.R_WS = 4.106;
      tpproperties.w_WS = 0.0;
      tpproperties.a_WS = 0.519;
+     tpproperties.beta2 = 0.0;
+     tpproperties.beta3 = 0.0;
    } else if (nucleusname.compare("Pb") == 0)
    {
      tpproperties.Z = 82;
@@ -94,6 +114,8 @@ namespace Nuclei {
      tpproperties.R_WS = 6.62;
      tpproperties.w_WS = 0.0;
      tpproperties.a_WS = 0.546;
+     tpproperties.beta2 = 0.0;
+     tpproperties.beta3 = 0.0;
    } else if (nucleusname.compare("Pt") == 0)
    {
      tpproperties.Z = 78;
@@ -102,6 +124,8 @@ namespace Nuclei {
      tpproperties.R_WS = 6.78;
      tpproperties.w_WS = 0.0;
      tpproperties.a_WS = 0.54;
+     tpproperties.beta2 = 0.0;
+     tpproperties.beta3 = 0.0;
    } else if (nucleusname.compare("Pt") == 0)
    {
      tpproperties.Z = 92;
@@ -110,6 +134,28 @@ namespace Nuclei {
      tpproperties.R_WS = 6.874;
      tpproperties.w_WS = 0.0;
      tpproperties.a_WS = 0.556;
+     tpproperties.beta2 = 0.0;
+     tpproperties.beta3 = 0.0;
+   } else if (nucleusname.compare("Ru") == 0)
+   {
+     tpproperties.Z = 44;
+     tpproperties.A = 96;
+     tpproperties.density_func = 4;
+     tpproperties.R_WS = 5.085;
+     tpproperties.w_WS = 0.0;
+     tpproperties.a_WS = 0.46;
+     tpproperties.beta2 = 0.154;
+     tpproperties.beta3 = 0.0;
+   } else if (nucleusname.compare("Zr") == 0)
+   {
+     tpproperties.Z = 40;
+     tpproperties.A = 96;
+     tpproperties.density_func = 4;
+     tpproperties.R_WS = 5.02;
+     tpproperties.w_WS = 0.0;
+     tpproperties.a_WS = 0.46;
+     tpproperties.beta2 = 0.062;
+     tpproperties.beta3 = 0.235;
    } else
    {
      cout << "Nucleus " << nucleusname << " is not known" << endl;
@@ -289,63 +335,136 @@ namespace Nuclei {
  {
    int nucleon_num = properties.A;
    double Radii[nucleon_num];
+   double Thetas[nucleon_num];
    double radius;
+   double theta, phi, posx, posy, posz; 
 
    bool do_we_need_to_sample_radii = true;
 
    do {
-     //Sample nucleon radii. Taking cue from Trento, we sample radii in the range [0,R+10a]
-     for (int inucleon = 0; inucleon < nucleon_num; inucleon++)
-     {
-       if (properties.density_func == 1)
-       {
-         do {
-            radius = (properties.R_WS + 10.*properties.a_WS)*pow(gsl_rng_uniform(random),1./3.);
-         } while (gsl_rng_uniform(random) > 1./(1.+exp((radius - properties.R_WS)/properties.a_WS)));
-       } else if (properties.density_func == 2){
-         do {
-            radius = (properties.R_WS + 10.*properties.a_WS)*pow(gsl_rng_uniform(random),1./3.);
-         } while (gsl_rng_uniform(random) > (1. + properties.w_WS*pow(radius/properties.R_WS,2.))/(1.+exp((pow(radius,2.) - pow(properties.R_WS,2.))/pow(properties.a_WS,2.))));
-       }
-       Radii[inucleon] = radius;
-     }
 
-     int num = sizeof(Radii)/sizeof(Radii[0]);
-     sort(Radii, Radii + num);
+     if (properties.density_func != 4)
+     {
+       //Sample nucleon radii. Taking cue from Trento, we sample radii in the range [0,R+10a]
+       for (int inucleon = 0; inucleon < nucleon_num; inucleon++)
+       {
+         if (properties.density_func == 1)
+         {
+           do {
+              radius = (properties.R_WS + 10.*properties.a_WS)*pow(gsl_rng_uniform(random),1./3.);
+           } while (gsl_rng_uniform(random) > 1./(1.+exp((radius - properties.R_WS)/properties.a_WS)));
+         } else if (properties.density_func == 2){
+           do {
+              radius = (properties.R_WS + 10.*properties.a_WS)*pow(gsl_rng_uniform(random),1./3.);
+           } while (gsl_rng_uniform(random) > (1. + properties.w_WS*pow(radius/properties.R_WS,2.))/(1.+exp((pow(radius,2.) - pow(properties.R_WS,2.))/pow(properties.a_WS,2.))));
+         }
+         Radii[inucleon] = radius;
+       }
+
+       int num = sizeof(Radii)/sizeof(Radii[0]);
+       sort(Radii, Radii + num);
   
-     double theta, phi, posx, posy, posz; 
-     for (int inucleon = 0; inucleon < nucleon_num; inucleon++)
-     {
-       int counter = 0;
-       bool theta_phi_okay = true;
-       do {
-          counter += 1;
-          if (counter > 100)
-          {
-            theta_phi_okay = false;
-            break;
-          }
-          theta = acos(1. - 2.*gsl_rng_uniform(random));
-          phi   = 2.*M_PI*gsl_rng_uniform(random);
-
-          posx = Radii[inucleon]*sin(theta)*cos(phi);
-          posy = Radii[inucleon]*sin(theta)*sin(phi);
-          posz = Radii[inucleon]*cos(theta);
-
-       } while (Nucleon_is_close(Nucleus, inucleon, posx, posy, posz));
-
-       if(!theta_phi_okay) break;
-       Nucleus[inucleon].x = posx;
-       Nucleus[inucleon].y = posy;
-       Nucleus[inucleon].z = posz;
-       Nucleus[inucleon].time = 0.;
-       if(is_nucleus_going_right)
+       for (int inucleon = 0; inucleon < nucleon_num; inucleon++)
        {
-         Nucleus[inucleon].rapidity = acosh(sqrtsNN/(2.*nucleon_mass));
-       } else {
-         Nucleus[inucleon].rapidity = -1.*acosh(sqrtsNN/(2.*nucleon_mass));
+         int counter = 0;
+         bool theta_phi_okay = true;
+         do {
+            counter += 1;
+            if (counter > 100)
+            {
+              theta_phi_okay = false;
+              break;
+            }
+            theta = acos(1. - 2.*gsl_rng_uniform(random));
+            phi   = 2.*M_PI*gsl_rng_uniform(random);
+
+            posx = Radii[inucleon]*sin(theta)*cos(phi);
+            posy = Radii[inucleon]*sin(theta)*sin(phi);
+            posz = Radii[inucleon]*cos(theta);
+
+         } while (Nucleon_is_close(Nucleus, inucleon, posx, posy, posz));
+
+         if(!theta_phi_okay) break;
+         Nucleus[inucleon].x = posx;
+         Nucleus[inucleon].y = posy;
+         Nucleus[inucleon].z = posz;
+         Nucleus[inucleon].time = 0.;
+         if(is_nucleus_going_right)
+         {
+           Nucleus[inucleon].rapidity = acosh(sqrtsNN/(2.*nucleon_mass));
+         } else {
+           Nucleus[inucleon].rapidity = -1.*acosh(sqrtsNN/(2.*nucleon_mass));
+         }
+         if(inucleon == (nucleon_num - 1)) do_we_need_to_sample_radii = false;
        }
-       if(inucleon == (nucleon_num - 1)) do_we_need_to_sample_radii = false;
+     
+
+
+     } else if (properties.density_func == 4) {
+       //Sample nucleon radii. Taking cue from Trento, we sample radii in the range [0,R+10a]
+       for (int inucleon = 0; inucleon < nucleon_num; inucleon++)
+       {
+         double Y_2_0, Y_3_0;
+         do {
+            radius = (properties.R_WS + 10.*properties.a_WS)*pow(gsl_rng_uniform(random),1./3.);
+            theta = acos(1. - 2.*gsl_rng_uniform(random));
+            Y_2_0 = 0.25*sqrt(5./M_PI)*(3.*pow(cos(theta),2.) - 1.);
+            Y_3_0 = 0.25*sqrt(7./M_PI)*(5.*pow(cos(theta),3.) - 3.*cos(theta));
+         } while (gsl_rng_uniform(random) > 1./(1.+exp((radius - properties.R_WS*(1. + properties.beta2*Y_2_0 + properties.beta3*Y_3_0))/properties.a_WS)));
+         Radii[inucleon] = radius;
+         Thetas[inucleon] = theta;
+       }
+
+       int num = sizeof(Radii)/sizeof(Radii[0]);
+       //Now sort the radii
+       for (int inucleon = 0; inucleon < nucleon_num; inucleon++)
+       {
+         for (int jnucleon = inucleon; jnucleon < nucleon_num; jnucleon++)
+         {
+           if (Radii[jnucleon] < Radii[inucleon])
+           {
+             double temp_radius = Radii[jnucleon];
+             Radii[jnucleon] = Radii[inucleon];
+             Radii[inucleon] = temp_radius; 
+             double temp_theta = Thetas[jnucleon];
+             Thetas[jnucleon] = Thetas[inucleon];
+             Thetas[inucleon] = temp_radius; 
+           }
+         }
+       }
+  
+       for (int inucleon = 0; inucleon < nucleon_num; inucleon++)
+       {
+         int counter = 0;
+         bool theta_phi_okay = true;
+         do {
+            counter += 1;
+            if (counter > 100)
+            {
+              theta_phi_okay = false;
+              break;
+            }
+            phi   = 2.*M_PI*gsl_rng_uniform(random);
+
+            posx = Radii[inucleon]*sin(Thetas[inucleon])*cos(phi);
+            posy = Radii[inucleon]*sin(Thetas[inucleon])*sin(phi);
+            posz = Radii[inucleon]*cos(Thetas[inucleon]);
+
+         } while (Nucleon_is_close(Nucleus, inucleon, posx, posy, posz));
+
+         if(!theta_phi_okay) break;
+         Nucleus[inucleon].x = posx;
+         Nucleus[inucleon].y = posy;
+         Nucleus[inucleon].z = posz;
+         Nucleus[inucleon].time = 0.;
+         if(is_nucleus_going_right)
+         {
+           Nucleus[inucleon].rapidity = acosh(sqrtsNN/(2.*nucleon_mass));
+         } else {
+           Nucleus[inucleon].rapidity = -1.*acosh(sqrtsNN/(2.*nucleon_mass));
+         }
+         if(inucleon == (nucleon_num - 1)) do_we_need_to_sample_radii = false;
+       }
      }
    } while(do_we_need_to_sample_radii);
 

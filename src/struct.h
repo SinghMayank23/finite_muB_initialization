@@ -9,6 +9,8 @@
    double R_WS;
    double w_WS;
    double a_WS;
+   double beta2;
+   double beta3;
  };
 
  struct nucleon
