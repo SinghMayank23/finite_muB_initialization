@@ -35,7 +35,7 @@ int main() {
     while (getline(gaussianfile, line))
     {
       istringstream iss(line);
-      iss >> dummy >> dummy >> dummy >> dummy >> energy >> dummy >> dummy;
+      iss >> dummy >> dummy >> dummy >> dummy >> dummy >> energy >> dummy;
       total_energy += energy;
     }
     gaussianfile.close();
