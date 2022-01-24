@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
   bool read_nucleon_pos_from_file = false;
   bool fixed_impact_parameter = false;
   bool save_nucleon_pos_and_bin_collisions = true;
-  int nevents = 10000;
+  int nevents = 1000;
   double sqrtsNN = 11.5;//7.7,11.5,14.5,27,62.4,200
   double sigmaNN = 4.2;//4.2 fm^2 (for 200 GeV)
   double fraction_of_inelastic_coll = 0.6;//LEXUS says 60%

@@ -12,7 +12,7 @@ using namespace std;
 void sortdecreasing(double** A, int eventnum);
 
 int main() {
-  int number_of_events = 10000;
+  int number_of_events = 100000;
   double **energies = new double* [2];
   for (int idx = 0; idx < 2; idx++)
   {
