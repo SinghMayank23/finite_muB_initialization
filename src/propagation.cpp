@@ -97,21 +97,13 @@ namespace Propagation {
 
    for (int icoll = 0; icoll < binary_list.size(); icoll++)
    {
-    std::shared_ptr<gaussians> new_gaussian(new gaussians);
-
     double sqrtsNN = binary_list[icoll]->sqrtsNN;
 //    double gaussian_width = (3./10.)*log(sqrtsNN/(2.*nucleon_mass));
     double gaussian_width = sqrt(log(sqrtsNN/(2.*nucleon_mass)));
-    new_gaussian->width_eta = gaussian_width;
-
 //    double eta_c = atanh(binary_list[icoll]->z/binary_list[icoll]->time);// + binary_list[icoll]->y_com;
 //    double tau = sqrt(pow(binary_list[icoll]->time,2.) - pow(binary_list[icoll]->z,2.)) + tau_thermalize;
     double eta_c = atanh(binary_list[icoll]->z/(binary_list[icoll]->time+tau_thermalize));
     double tau = sqrt(pow((binary_list[icoll]->time+tau_thermalize),2.) - pow(binary_list[icoll]->z,2.));// + tau_thermalize;
-    new_gaussian->eta_c = eta_c;
-    new_gaussian->tau = tau;
-    new_gaussian->x_c = binary_list[icoll]->x;
-    new_gaussian->y_c = binary_list[icoll]->y;
 
 //    cout << binary_list[icoll]->time << "  " << tau << "  " << binary_list[icoll]->z << "  " << eta_c << endl;
 
@@ -120,10 +112,19 @@ namespace Propagation {
 
 //    new_gaussian->energy = binary_list[icoll]->energy;
 //    new_gaussian->p_z    = binary_list[icoll]->p_z   ;
-    new_gaussian->energy = energy_milne;
-    new_gaussian->p_z    = pz_milne    ;
+    if(!isnan(tau) && !isnan(eta_c)){
+      std::shared_ptr<gaussians> new_gaussian(new gaussians);
 
-    gaussian_list.push_back(new_gaussian);
+      new_gaussian->width_eta = gaussian_width;
+      new_gaussian->eta_c = eta_c;
+      new_gaussian->tau = tau;
+      new_gaussian->x_c = binary_list[icoll]->x;
+      new_gaussian->y_c = binary_list[icoll]->y;
+      new_gaussian->energy = energy_milne;
+      new_gaussian->p_z    = pz_milne    ;
+
+      gaussian_list.push_back(new_gaussian);
+    }
    }
    return;
  }
@@ -137,15 +138,9 @@ namespace Propagation {
    {
      if(abs(Target[inucleon].rapidity) < y_beam)
      {
-       std::shared_ptr<remnant> new_remnant(new remnant);
-
-       new_remnant->x = Target[inucleon].x;
-       new_remnant->y = Target[inucleon].y;
-       
        double rapidity = Target[inucleon].rapidity;
   
        double tau_i = sqrt(pow(Target[inucleon].time,2.) - pow(Target[inucleon].z,2.));
-       new_remnant->tau = tau_i + tau_thermalize;
 
        double velocity = tanh(Target[inucleon].rapidity);
        double eta_i = atanh(Target[inucleon].z/Target[inucleon].time);
@@ -153,32 +148,36 @@ namespace Propagation {
        double b = (tau_i*sinh(eta_i) - velocity*tau_i*cosh(eta_i))/(tau_thermalize + tau_i);
 
        double eta_f = log((-1.*b - sqrt(1-velocity*velocity + b*b))/(velocity-1.));
-       new_remnant->eta = eta_f;
 
        double energy = nucleon_mass*cosh(rapidity);
        double p_z    = nucleon_mass*sinh(rapidity);
        double energy_milne =  cosh(eta_f)*energy - sinh(eta_f)*p_z;
        double pz_milne     = -sinh(eta_f)*energy + cosh(eta_f)*p_z;
 
-       new_remnant->energy = energy_milne;
-       new_remnant->p_z    = pz_milne;
+       if(!isnan(tau_i) && !isnan(eta_f))
+       {
+         std::shared_ptr<remnant> new_remnant(new remnant);
 
-       remnant_list.push_back(new_remnant);
+         new_remnant->x = Target[inucleon].x;
+         new_remnant->y = Target[inucleon].y;
+         
+         new_remnant->tau = tau_i + tau_thermalize;
+         new_remnant->eta = eta_f;
+
+         new_remnant->energy = energy_milne;
+         new_remnant->p_z    = pz_milne;
+
+         remnant_list.push_back(new_remnant);
+       }
      }
    }
    for (int inucleon = 0; inucleon < ProjectileA; inucleon++)
    {
      if(abs(Projectile[inucleon].rapidity) < y_beam)
      {
-       std::shared_ptr<remnant> new_remnant(new remnant);
-
-       new_remnant->x = Projectile[inucleon].x;
-       new_remnant->y = Projectile[inucleon].y;
-       
        double rapidity = Projectile[inucleon].rapidity;
   
        double tau_i = sqrt(pow(Projectile[inucleon].time,2.) - pow(Projectile[inucleon].z,2.));
-       new_remnant->tau = tau_i + tau_thermalize;
 
        double velocity = tanh(Projectile[inucleon].rapidity);
        double eta_i = atanh(Projectile[inucleon].z/Projectile[inucleon].time);
@@ -186,17 +185,27 @@ namespace Propagation {
        double b = (tau_i*sinh(eta_i) - velocity*tau_i*cosh(eta_i))/(tau_thermalize + tau_i);
 
        double eta_f = log((-1.*b - sqrt(1-velocity*velocity + b*b))/(velocity-1.));
-       new_remnant->eta = eta_f;
 
        double energy = nucleon_mass*cosh(rapidity);
        double p_z    = nucleon_mass*sinh(rapidity);
        double energy_milne =  cosh(eta_f)*energy - sinh(eta_f)*p_z;
        double pz_milne     = -sinh(eta_f)*energy + cosh(eta_f)*p_z;
 
-       new_remnant->energy = energy_milne;
-       new_remnant->p_z    = pz_milne;
+       if(!isnan(tau_i) && !isnan(eta_f))
+       {
+         std::shared_ptr<remnant> new_remnant(new remnant);
 
-       remnant_list.push_back(new_remnant);
+         new_remnant->x = Projectile[inucleon].x;
+         new_remnant->y = Projectile[inucleon].y;
+         
+         new_remnant->tau = tau_i + tau_thermalize;
+         new_remnant->eta = eta_f;
+
+         new_remnant->energy = energy_milne;
+         new_remnant->p_z    = pz_milne;
+
+         remnant_list.push_back(new_remnant);
+       }
      }
    }
 
